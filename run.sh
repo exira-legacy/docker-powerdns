@@ -15,11 +15,15 @@ if [[ "x"$WEBSERVER_ADDRESS == "x" ]]; then
 fi
 
 if [[ "x"$WEBSERVER_PORT == "x" ]]; then
-    export WEBSERVER_PORT='80'
+    export WEBSERVER_PORT='8000'
 fi
 
 if [[ "x"$PDNS_LOCALADDRESS == "x" ]]; then
     export PDNS_LOCALADDRESS='0.0.0.0'
+fi
+
+if [[ "x"$PDNS_PORT == "x" ]]; then
+    export PDNS_PORT='5300'
 fi
 
 if [[ "x"$PDNS_IPRANGE == "x" ]]; then
@@ -51,7 +55,7 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
 fi
 
 # Basic config
-export PARAMS="--no-config --master --daemon=no --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --allow-axfr-ips=$PDNS_IPRANGE"
+export PARAMS="--no-config --master --daemon=no --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_PORT --allow-axfr-ips=$PDNS_IPRANGE"
 
 if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE != "x" ]]; then
     export PARAMS="$PARAMS --launch=gmysql --gmysql-host=$MYSQL_HOST --gmysql-port=$MYSQL_PORT --gmysql-user=$MYSQL_USER --gmysql-password=$MYSQL_PASSWORD --gmysql-dbname=$MYSQL_DATABASE"

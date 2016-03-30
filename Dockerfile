@@ -35,8 +35,8 @@ ADD pdns.sql /pdns.sql
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
-EXPOSE 53/tcp
-EXPOSE 53/udp
-EXPOSE 8053
+EXPOSE 5300/tcp
+EXPOSE 5300/udp
+EXPOSE 8000
 
 CMD ["/run.sh"]
