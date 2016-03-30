@@ -6,6 +6,10 @@ if [[ "x"$MYSQL_HOST == "x" ]]; then
     export MYSQL_HOST='db'
 fi
 
+if [[ "x"$MYSQL_PORT == "x" ]]; then
+    export MYSQL_PORT='3306'
+fi
+
 if [[ "x"$WEBSERVER_ADDRESS == "x" ]]; then
     export WEBSERVER_ADDRESS='0.0.0.0'
 fi
@@ -29,8 +33,8 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
         touch /.pdns-db-init
         echo >&2 "Parameters detected"
 
-        export PARAM_MYSQLOK=`mysql --host=${MYSQL_HOST} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute="SHOW DATABASES;"|grep -o "Database"`
-        export PARAM_MYSQLDBOK=`mysql --host=${MYSQL_HOST} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute="SHOW DATABASES;"|grep -o "${MYSQL_DATABASE}"`
+        export PARAM_MYSQLOK=`mysql --host=${MYSQL_HOST} --port=${MYSQL_PORT} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute="SHOW DATABASES;"|grep -o "Database"`
+        export PARAM_MYSQLDBOK=`mysql --host=${MYSQL_HOST} --port=${MYSQL_PORT} --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute="SHOW DATABASES;"|grep -o "${MYSQL_DATABASE}"`
 
         if [ "$PARAM_MYSQLOK" != "Database" ]; then
             echo >&2 "Failed to connect to Database"
@@ -40,7 +44,7 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
         if [[ "$PARAM_MYSQLOK" != "$MYSQL_DATABASE" ]]; then
             echo >&2 "Initialising DB"
             sed -i -e "s:\[dbname\]:${MYSQL_DATABASE}:g" /pdns.sql
-            mysql --host=$MYSQL_HOST --user=$MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /pdns.sql
+            mysql --host=$MYSQL_HOST --port=${MYSQL_PORT} --user=$MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /pdns.sql
             sleep 4
         fi
     fi
@@ -50,7 +54,7 @@ fi
 export PARAMS="--no-config --master --daemon=no --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --allow-axfr-ips=$PDNS_IPRANGE"
 
 if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE != "x" ]]; then
-    export PARAMS="$PARAMS --launch=gmysql --gmysql-host=$MYSQL_HOST --gmysql-user=$MYSQL_USER --gmysql-password=$MYSQL_PASSWORD --gmysql-dbname=$MYSQL_DATABASE"
+    export PARAMS="$PARAMS --launch=gmysql --gmysql-host=$MYSQL_HOST --gmysql-port=$MYSQL_PORT --gmysql-user=$MYSQL_USER --gmysql-password=$MYSQL_PASSWORD --gmysql-dbname=$MYSQL_DATABASE"
 fi
 
 if [[ "x"$WEBSERVER != "x" ]]; then
