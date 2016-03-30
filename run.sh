@@ -45,7 +45,7 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
             exit 1
         fi
 
-        if [[ "$PARAM_MYSQLOK" != "$MYSQL_DATABASE" ]]; then
+        if [[ "$PARAM_MYSQLDBOK" != "$MYSQL_DATABASE" ]]; then
             echo >&2 "Initialising DB"
             sed -i -e "s:\[dbname\]:${MYSQL_DATABASE}:g" /pdns.sql
             mysql --host=$MYSQL_HOST --port=${MYSQL_PORT} --user=$MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DATABASE < /pdns.sql
