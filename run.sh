@@ -18,6 +18,10 @@ if [[ "x"$WEBSERVER_PORT == "x" ]]; then
     export WEBSERVER_PORT='8000'
 fi
 
+if [[ "x"$WEBSERVER_API_PASSWORD == "x" ]]; then
+    export WEBSERVER_API_PASSWORD="$WEBSERVER_PASSWORD"
+fi
+
 if [[ "x"$PDNS_LOCALADDRESS == "x" ]]; then
     export PDNS_LOCALADDRESS='0.0.0.0'
 fi
@@ -62,7 +66,7 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
 fi
 
 if [[ "x"$WEBSERVER != "x" ]]; then
-    export PARAMS="$PARAMS --webserver=yes --experimental-json-interface=yes --webserver-address=$WEBSERVER_ADDRESS --webserver-port=$WEBSERVER_PORT --webserver-password=$WEBSERVER_PASSWORD --experimental-api-key=$WEBSERVER_PASSWORD"
+    export PARAMS="$PARAMS --webserver=yes --experimental-json-interface=yes --webserver-address=$WEBSERVER_ADDRESS --webserver-port=$WEBSERVER_PORT --webserver-password=$WEBSERVER_PASSWORD --experimental-api-key=$WEBSERVER_API_PASSWORD"
 fi
 
 # Run
