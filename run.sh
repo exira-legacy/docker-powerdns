@@ -59,7 +59,11 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
 fi
 
 # Basic config
-export PARAMS="--no-config --master --daemon=no --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_PORT --allow-axfr-ips=$PDNS_IPRANGE"
+export PARAMS="--no-config --daemon=no --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_PORT --allow-axfr-ips=$PDNS_IPRANGE"
+
+if [[ "x"$MODE_MASTER != "x" ]]; then
+    export PARAMS="$PARAMS --master"
+fi
 
 if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE != "x" ]]; then
     export PARAMS="$PARAMS --launch=gmysql --gmysql-host=$MYSQL_HOST --gmysql-port=$MYSQL_PORT --gmysql-user=$MYSQL_USER --gmysql-password=$MYSQL_PASSWORD --gmysql-dbname=$MYSQL_DATABASE"
