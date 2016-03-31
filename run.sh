@@ -30,10 +30,6 @@ if [[ "x"$PDNS_PORT == "x" ]]; then
     export PDNS_PORT='5300'
 fi
 
-if [[ "x"$PDNS_IPRANGE == "x" ]]; then
-    export PDNS_IPRANGE='127.0.0.0/8'
-fi
-
 # Initialising database
 if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE != "x" ]]; then
     if [[ ! -x /.pdns-db-init ]]; then
@@ -58,11 +54,25 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
     fi
 fi
 
-# Basic config
-export PARAMS="--no-config --daemon=no --version-string=exira --setuid=pdns --setgid=pdns --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_PORT --allow-axfr-ips=$PDNS_IPRANGE"
+# Basic settings
+export PARAMS="--no-config --daemon=no --version-string=exira --setuid=pdns --setgid=pdns"
+
+# Network settings
+export PARAMS="$PARAMS --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_PORT --allow-recursion=0.0.0.0/0"
+
+# SOA settings
+export PARAMS="$PARAMS --default-soa-name=$PDNS_SOA_NAME --default-soa-mail=$PDNS_SOA_MAIL --soa-minimum-ttl=3600 --soa-refresh-default=10800 --soa-retry-default=3600"
+
+if [[ "x"$PDNS_IPRANGE != "x" ]]; then
+    export PARAMS="$PARAMS --allow-axfr-ips=$PDNS_IPRANGE"
+fi
 
 if [[ "x"$MODE_MASTER != "x" ]]; then
-    export PARAMS="$PARAMS --master"
+    export PARAMS="$PARAMS --master=yes --slave=no --disable-axfr=no"
+fi
+
+if [[ "x"$MODE_SLAVE != "x" ]]; then
+    export PARAMS="$PARAMS --master=no --slave=yes --disable-axfr=yes --slave-cycle-interval=60"
 fi
 
 if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE != "x" ]]; then
