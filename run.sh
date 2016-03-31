@@ -62,7 +62,7 @@ if [[ "x"$MYSQL_USER != "x" && "x"$MYSQL_PASSWORD != "x" && "x"$MYSQL_DATABASE !
 fi
 
 if [[ "x"$WEBSERVER != "x" ]]; then
-    export PARAMS="$PARAMS --webserver=y  --webserver-address=$WEBSERVER_ADDRESS --webserver-port=$WEBSERVER_PORT --webserver-password=$WEBSERVER_PASSWORD"
+    export PARAMS="$PARAMS --webserver=yes --experimental-json-interface=yes --webserver-address=$WEBSERVER_ADDRESS --webserver-port=$WEBSERVER_PORT --webserver-password=$WEBSERVER_PASSWORD --experimental-api-key=$WEBSERVER_PASSWORD"
 fi
 
 # Run
