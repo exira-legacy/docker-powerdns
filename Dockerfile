@@ -49,9 +49,10 @@ RUN \
     make && \
     make install && \
     make clean && \
+    mkdir -p /var/lib/powerdns/zones && \
 
     # strip debug symbols from the binary (GREATLY reduces binary size)
-    #strip -s /usr/sbin/pdns_server && \
+    strip -s /usr/sbin/pdns_server && \
 
     # remove dev dependencies
     apk del ${build_pkgs} && \
@@ -69,6 +70,8 @@ ADD named.conf-slave /named.conf-slave
 ADD run.sh /run.sh
 RUN chmod +x /run.sh && \
     chmod 755 /etc/init.d/pdns
+
+VOLUME /var/lib/powerdns/
 
 EXPOSE 5300/tcp
 EXPOSE 5300/udp
