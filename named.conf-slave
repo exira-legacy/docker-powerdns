@@ -1,0 +1,5 @@
+options {
+  directory "/var/lib/powerdns";
+};
+
+include "named-superslave.conf";

@@ -83,5 +83,26 @@ if [[ "x"$WEBSERVER != "x" ]]; then
     export PARAMS="$PARAMS --webserver=yes --experimental-json-interface=yes --webserver-address=$WEBSERVER_ADDRESS --webserver-port=$WEBSERVER_PORT --webserver-password=$WEBSERVER_PASSWORD --experimental-api-key=$WEBSERVER_API_PASSWORD"
 fi
 
+if [[ "x"$MODE_SLAVE != "x" && "x"$MODE_BIND != "x" ]]; then
+    mkdir -p /var/lib/powerdns/zones
+    touch /var/lib/powerdns/named-superslave.conf
+    cp /named.conf-slave /etc/powerdns/named.conf
+
+    export PARAMS="$PARAMS --launch=bind --bind-config=/etc/powerdns/named.conf --bind-supermasters=/etc/powerdns/supermasters.conf --bind-supermaster-config=/var/lib/powerdns/named-superslave.conf --bind-supermaster-destdir=/var/lib/powerdns/zones"
+    echo $SUPERMASTER_1 > /etc/powerdns/supermasters.conf
+
+    if [[ "x"$SUPERMASTER_2 != "x" ]]; then
+        echo $SUPERMASTER_2 >> /etc/powerdns/supermasters.conf
+    fi
+
+    if [[ "x"$SUPERMASTER_3 != "x" ]]; then
+        echo $SUPERMASTER_3 >> /etc/powerdns/supermasters.conf
+    fi
+
+    if [[ "x"$SUPERMASTER_4 != "x" ]]; then
+        echo $SUPERMASTER_4 >> /etc/powerdns/supermasters.conf
+    fi
+fi
+
 # Run
 exec /usr/sbin/pdns_server $PARAMS

@@ -31,6 +31,7 @@ RUN \
     rm -rf /var/log/*
 
 ADD pdns.sql /pdns.sql
+ADD named.conf-slave /named.conf-slave
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
