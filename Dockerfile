@@ -45,7 +45,7 @@ RUN \
 		--with-modules="bind gmysql" \
 		--with-dynmodules="" \
         --without-lua \
-		--disable-static && \
+		--enable-static && \
     make && \
     make install && \
     make clean && \
