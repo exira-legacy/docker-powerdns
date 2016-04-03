@@ -9,7 +9,8 @@ ENV POWERDNS_VERSION=3.4.8 \
     CONTAINER_USER=pdns \
     CONTAINER_GROUP=pdns
 
-ADD 0010-disable-execinfo.patch /tmp/0010-disable-execinfo.patch
+ADD disable-execinfo.patch /tmp/disable-execinfo.patch
+ADD packageversion.patch /tmp/packageversion.patch
 
 RUN \
     # add pdns user
@@ -32,7 +33,10 @@ RUN \
     git clone https://github.com/PowerDNS/pdns.git -v -b auth-${POWERDNS_VERSION} . && \
 
     # patch pdns for alpine
-    git apply -v /tmp/0010-disable-execinfo.patch && \
+    git apply -v /tmp/disable-execinfo.patch && \
+
+    # patch pdns for security packageversion checks
+    git apply -v /tmp/packageversion.patch && \
 
     # compile pdns
     ./bootstrap && \

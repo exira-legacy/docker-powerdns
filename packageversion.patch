@@ -1,0 +1,28 @@
+From eb46507b497f5ed9391fde1d23f2f9d83e99ff48 Mon Sep 17 00:00:00 2001
+From: David Cumps <david@cumps.be>
+Date: Mon, 4 Apr 2016 00:37:15 +0200
+Subject: [PATCH] Support setting PACKAGEVERSION from configure
+
+---
+ configure.ac | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index fa51af8..d8fd791 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -347,6 +347,11 @@ AC_SUBST(LIBS)
+ AC_SUBST([AM_CPPFLAGS], ['-I$(top_builddir) -I$(top_srcdir)'])
+ AC_SUBST([AM_CXXFLAGS], ['-I$(top_builddir) -I$(top_srcdir)'])
+ 
++AC_ARG_VAR(PACKAGEVERSION,[The version used in secpoll queries])
++AS_IF([test "x$PACKAGEVERSION" != "x"],
++  [AC_DEFINE_UNQUOTED([PACKAGEVERSION], "$PACKAGEVERSION", [Set to the package version used for secpoll])]
++)
++
+ export moduledirs moduleobjects modulelibs
+ 
+ AC_CONFIG_FILES([
+-- 
+2.6.3.windows.1
+
