@@ -46,7 +46,7 @@ RUN \
 		--with-dynmodules="" \
         --without-lua \
 		--disable-static && \
-    make && \
+    make PACKAGEVERSION=${POWERDNS_VERSION} && \
     make install && \
     make clean && \
     mkdir -p /var/lib/powerdns/zones && \
