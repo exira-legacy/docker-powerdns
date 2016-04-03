@@ -64,7 +64,7 @@ export PARAMS="$PARAMS --local-address=$PDNS_LOCALADDRESS --local-port=$PDNS_POR
 export PARAMS="$PARAMS --default-soa-name=$PDNS_SOA_NAME --default-soa-mail=$PDNS_SOA_MAIL --soa-minimum-ttl=3600 --soa-refresh-default=10800 --soa-retry-default=3600"
 
 if [[ "x"$PDNS_IPRANGE != "x" ]]; then
-    export PARAMS="$PARAMS --allow-axfr-ips=$PDNS_IPRANGE"
+    export PARAMS="$PARAMS --allow-axfr-ips=$PDNS_IPRANGE --only-notify=$PDNS_IPRANGE"
 fi
 
 if [[ "x"$MODE_MASTER != "x" ]]; then
