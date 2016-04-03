@@ -86,7 +86,11 @@ fi
 if [[ "x"$MODE_SLAVE != "x" && "x"$MODE_BIND != "x" ]]; then
     mkdir -p /var/lib/powerdns/zones
     touch /var/lib/powerdns/named-superslave.conf
+    chown -R pdns:pdns /var/lib/powerdns
+
+    mkdir -p /etc/powerdns
     cp /named.conf-slave /etc/powerdns/named.conf
+    chown -R pdns:pdns /etc/powerdns
 
     export PARAMS="$PARAMS --launch=bind --bind-config=/etc/powerdns/named.conf --bind-supermasters=/etc/powerdns/supermasters.conf --bind-supermaster-config=/var/lib/powerdns/named-superslave.conf --bind-supermaster-destdir=/var/lib/powerdns/zones"
     echo "$SUPERMASTER_1 ns1" > /etc/powerdns/supermasters.conf
