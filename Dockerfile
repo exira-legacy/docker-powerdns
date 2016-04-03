@@ -36,7 +36,8 @@ RUN \
 
     # compile pdns
     ./bootstrap && \
-	./configure --prefix=/usr \
+	./configure PACKAGEVERSION=${POWERDNS_VERSION} \
+        --prefix=/usr \
 		--sysconfdir=/etc \
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
@@ -46,7 +47,7 @@ RUN \
 		--with-dynmodules="" \
         --without-lua \
 		--disable-static && \
-    make PACKAGEVERSION=${POWERDNS_VERSION} && \
+    make && \
     make install && \
     make clean && \
     mkdir -p /var/lib/powerdns/zones && \
