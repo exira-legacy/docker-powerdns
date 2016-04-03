@@ -89,18 +89,18 @@ if [[ "x"$MODE_SLAVE != "x" && "x"$MODE_BIND != "x" ]]; then
     cp /named.conf-slave /etc/powerdns/named.conf
 
     export PARAMS="$PARAMS --launch=bind --bind-config=/etc/powerdns/named.conf --bind-supermasters=/etc/powerdns/supermasters.conf --bind-supermaster-config=/var/lib/powerdns/named-superslave.conf --bind-supermaster-destdir=/var/lib/powerdns/zones"
-    echo $SUPERMASTER_1 > /etc/powerdns/supermasters.conf
+    echo "$SUPERMASTER_1 ns1" > /etc/powerdns/supermasters.conf
 
     if [[ "x"$SUPERMASTER_2 != "x" ]]; then
-        echo $SUPERMASTER_2 >> /etc/powerdns/supermasters.conf
+        echo "$SUPERMASTER_2 ns2" >> /etc/powerdns/supermasters.conf
     fi
 
     if [[ "x"$SUPERMASTER_3 != "x" ]]; then
-        echo $SUPERMASTER_3 >> /etc/powerdns/supermasters.conf
+        echo "$SUPERMASTER_3 ns3" >> /etc/powerdns/supermasters.conf
     fi
 
     if [[ "x"$SUPERMASTER_4 != "x" ]]; then
-        echo $SUPERMASTER_4 >> /etc/powerdns/supermasters.conf
+        echo "$SUPERMASTER_4 ns4" >> /etc/powerdns/supermasters.conf
     fi
 fi
 
