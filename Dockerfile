@@ -1,4 +1,6 @@
-FROM exira/base:latest
+# fetch latest tag release as 'latest' fails
+# FROM exira/base:latest
+FROM exira/base:3.4.2
 
 MAINTAINER exira.com <info@exira.com>
 
